@@ -59,4 +59,13 @@ public class Patient extends Identite{
 		this.Cancer_array= ca;
 	}
 	
+	//methode de traitement des cancer
+		public void mod4() {
+			//TODO : récupère le cancer cimo3 morpho,
+			//Si fini par 3 : le marque à delete
+			//Si iacr morpho 8 à 15 : codage  iacr topo en S
+			//utiliser les getter des cancers
+			//et remove()
+			//
+		}
 }

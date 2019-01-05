@@ -22,7 +22,6 @@ public class Extractor {
 		String a = this.entree;
 		String[] parts = a.split(";");
 		this.sortie = new ArrayList<String>(Arrays.asList(parts));
-		
 	}
 	
  
@@ -31,9 +30,10 @@ public class Extractor {
 		return entree;
 	}
 	
+	
 	//Getter pour récupérer l'array sortie contenant les différents diagnostics
 	public ArrayList<String> getArray() {
-		
 		return sortie;
 	}
+	
 }

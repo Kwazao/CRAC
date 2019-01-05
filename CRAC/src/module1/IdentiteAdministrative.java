@@ -8,7 +8,7 @@ public class IdentiteAdministrative extends Identite {
 	
 	//initialisation des attributs 
 	private Patient patient;
-	private ArrayList <Diagnostic> Diag_array = new ArrayList <>();
+	private ArrayList <Diagnostic> diag_array = new ArrayList <>();
 	private boolean integrite = false;
 	
 	
@@ -21,11 +21,19 @@ public class IdentiteAdministrative extends Identite {
 		
 	}
 	
+	//constructeur avec diag
+	public IdentiteAdministrative(String p, String n, String s, String d, ArrayList<Diagnostic> di) {
+		super(p,n,s,d);
+		this.diag_array=di;
+		
+	}
+	
+	
 	//constructeur ac patient
 	public IdentiteAdministrative(String p, String n, String s, String d, Patient pa, ArrayList<Diagnostic> di) {
 		super(p,n,s,d);
 		this.patient = pa;
-		this.Diag_array = di;
+		this.diag_array = di;
 	}
 	
 	
@@ -36,7 +44,7 @@ public class IdentiteAdministrative extends Identite {
 	}
 	
 	public ArrayList<Diagnostic> getDiag(){
-		return Diag_array;
+		return diag_array;
 	}
 	
 	public boolean getInteg() {

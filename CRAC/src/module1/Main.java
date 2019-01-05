@@ -22,6 +22,10 @@ public class Main {
 		System.out.println("Création des diagnostic... ");
 		diagdao.generateDiag();
 		
+		for (IdentiteAdministrative idadm : diagdao.getIdAdm()) {
+			System.out.println(idadm.getNom());
+		}
+		
 		
 		
 		

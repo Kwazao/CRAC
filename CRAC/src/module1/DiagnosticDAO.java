@@ -9,123 +9,139 @@ import java.util.Iterator;
 public class DiagnosticDAO extends DAO<Diagnostic>{
 
 	//Cette arraylist va contenir tous les diagnostics générés par l'import
-	private ArrayList<Diagnostic> gendiag = new ArrayList<>();
+	private ArrayList<Diagnostic> gen_diag = new ArrayList<>();
+	private ArrayList<IdentiteAdministrative> gen_idadm = new ArrayList<>();
 	
 	
 	public DiagnosticDAO(Connection conn) {
 		super(conn);
-		gendiag = new ArrayList<>();
+		gen_diag = new ArrayList<>();
+		gen_idadm = new ArrayList<>();
 	}
 	
-	
+	  
 	//Génération de tous les objets Diagnostics à partir de la bdd (objet connexion)
-		public void generateDiag() {
+	public void generateDiag() {
 		
 			
-			//Connexion à la base
-			try {
-				ResultSet result = this.connect.createStatement(
-				ResultSet.TYPE_SCROLL_SENSITIVE,
-				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM anapath");
+		//Connexion à la base
+		try {
+			ResultSet result = this.connect.createStatement(
+			ResultSet.TYPE_SCROLL_SENSITIVE,
+			ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM anapath");
 				
-				if (result.first()) {
-					result.beforeFirst();
+			if (result.first()) {
+				result.beforeFirst();
+				
+				int compte = 0;
+				String typecode = "adicap";
+				
+				while(result.next()) {
+						
+					/*
+					 * Boucle de création des identités administratives et diagnostics à partir de la table anapath	 
+					 * 1ere etape : creation identite administrative
+					 * 2eme etape : boucle sur diagnostics pour les extraire des ";" avec extractor
+					 * 3eme etape : creation des objets diagnostics
+					 * 4eme etape : ajout des objets diagnostic aux objets identite adm
+					 */
 					
-					int compte = 0;
-					String typecode = "adicap";
+					IdentiteAdministrative idadm = new IdentiteAdministrative(
+							result.getString("Prenom"),
+							result.getString("Nom"),
+							result.getString("Sexe"),
+							result.getString("DateNaissance"));
 					
-					while(result.next()) {
+					System.out.println("ajout de l'identite administrative : " + idadm.getNom() );
+					
+					
+					//stockage de la valeur des champs adicap dans objets extractor
+					Extractor extractcode1 = new Extractor(result.getString("ADICAP1"));
+					Extractor extractcode2 = new Extractor(result.getString("ADICAP2"));
 						
-						//TODO plusieurs étapes à suivre :
-						/*
-						 * 1. Générer l'objet Diagnostic avec un id_adm vide ?
-						 * 
-						 * 	2. avec setters : ajouter l'objet id administrative (appeler les setters dédiés)
-						 */
-						
-						//stockage de la valeur des champs adicap dans objets extractor
-						Extractor extractcode1 = new Extractor(result.getString("ADICAP1"));
-						Extractor extractcode2 = new Extractor(result.getString("ADICAP2"));
-						
-						//application de la méthode extract pour séparer les codes entre ";"
-						extractcode1.extract();
-						extractcode2.extract();
+					//application de la méthode extract pour séparer les codes entre ";"
+					extractcode1.extract();
+					extractcode2.extract();
 						
 						//iteration sur les array obtenus avec le getter pour  creer autant d'objets diagnostics qu'il y a de codes
-						Iterator itr1 = extractcode1.getArray().iterator();
-						Iterator itr2 = extractcode2.getArray().iterator();
+					Iterator itr1 = extractcode1.getArray().iterator();
+					Iterator itr2 = extractcode2.getArray().iterator();
+					
+					//boucle parcourant l'array pour la colonne adicap1
+					while(itr1.hasNext()) {
 						
-						//boucle parcourant l'array pour la colonne adicap1
-						while(itr1.hasNext()) {
-							
-							//stockage du code unique dans une variable String
-							String code = itr1.next().toString();
-							
-							System.out.println("ajout du code : "+ code );
-							
-							IdentiteAdministrative idadm = new IdentiteAdministrative(
-									result.getString("Prenom"),
-									result.getString("Nom"),
-									result.getString("Sexe"),
-									result.getString("DateNaissance"));
-							
-							System.out.println("ajout de l'identite administrative : " + idadm.getNom() );
-							
-							//finalisation avec création de l'objet diagnostic qui reprend les différents diagnostics trouvés dans le champs adicap1
-							Diagnostic diag = new Diagnostic(
-									code,
-									typecode,
-									idadm
-									);
-							
-							gendiag.add(diag);
-						}
+						//stockage du code unique dans une variable String
+						String code = itr1.next().toString();
 						
-						//boucle parcourant l'array pour la colonne adicap2
-						while(itr2.hasNext()) {
-							
-							//stockage du code unique dans une variable String
-							String code = itr2.next().toString();
-							
-							System.out.println("ajout du code : "+ code );
-							
-							IdentiteAdministrative idadm = new IdentiteAdministrative(
-									result.getString("Prenom"),
-									result.getString("Nom"),
-									result.getString("Sexe"),
-									result.getString("DateNaissance"));
-							
-							System.out.println("ajout de l'identite administrative : " + idadm.getNom() );
-							
-							//finalisation avec création de l'objet diagnostic qui reprend les différents diagnostics trouvés dans le champs adicap2
-							Diagnostic diag = new Diagnostic(
-									code,
-									typecode,
-									idadm
-									);
-							
-							gendiag.add(diag);
-						}						
+						System.out.println("ajout du code : "+ code );
+
 						
+						//finalisation avec création de l'objet diagnostic qui reprend les différents diagnostics trouvés dans le champs adicap1
+						Diagnostic diag = new Diagnostic(
+								typecode,
+								code,
+								idadm
+								);
 						
-						compte += 1;
+						gen_diag.add(diag);
+						idadm.addDiag(diag);
 					}
 					
-					System.out.println("Un total de "+ compte +" patients à été importé de la base anapath");
-					compte = 0;
+					//boucle parcourant l'array pour la colonne adicap2
+					while(itr2.hasNext()) {
+						
+						//stockage du code unique dans une variable String
+						String code = itr2.next().toString();
+						
+						System.out.println("ajout du code : "+ code );
+						
+						
+						
+						//finalisation avec création de l'objet diagnostic qui reprend les différents diagnostics trouvés dans le champs adicap2
+						Diagnostic diag = new Diagnostic(
+								code,
+								typecode,
+								idadm
+								);
+						
+						gen_diag.add(diag);
+						idadm.addDiag(diag);
+					}						
+					
+					
+					gen_idadm.add(idadm);
+					compte += 1;
 				}
 				
+				System.out.println("Un total de "+ compte +" patients à été importé de la base anapath");
+			
+				
+				
+				compte = 0;
 				
 				
 			}
-			catch (SQLException e) {
-			      e.printStackTrace();
-			    }
-			
-			
-		}
 		
+				
+				
+		}
+		catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+			
+			
+	}
 	
+	//Récupération de l'arraylist contenant toutes les identités adminsitratives
+	public ArrayList<IdentiteAdministrative> getIdAdm(){
+		return gen_idadm;
+	}
+	
+	//Récupération de l'arraylist contenant tous les diagnostics générés
+	public ArrayList<Diagnostic> getDiag(){
+		return gen_diag;
+	}
+		
 	
 	public boolean create(Diagnostic obj) {
 		return false;

@@ -3,16 +3,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 	
 
 	//Cette arraylist va contenir tous les objets "IdentiteAdministrative" générés
-	private ArrayList<IdentiteAdministrative> gen_IdAdm = new ArrayList<>();
+	private ArrayList<IdentiteAdministrative> gen_idadm = new ArrayList<IdentiteAdministrative>();
 	
 	public IdAdmDAO(Connection conn) {
 		super(conn);
-		gen_IdAdm = new ArrayList<>();
+		gen_idadm = new ArrayList<>();
 	}
 
 
@@ -30,6 +31,8 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 				result.beforeFirst();
 				
 				int compte = 0;
+				String typecodedp = "DP";
+				String typecodedr = "DR";
 				
 				while(result.next()) {
 					
@@ -40,12 +43,36 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 							result.getString("DateNaissance")
 							);
 					
+					//récupération du diagnostic principal
+					Diagnostic diagdp = new Diagnostic(
+							typecodedp,
+							result.getString("DP")
+							);
+					//recupération du diagnostic relié
+					Diagnostic diagdr = new Diagnostic(
+							typecodedr,
+							result.getString("DR")
+							);
+					
+					//ajout dans l'objet identité administrative crée
+					idadm.addDiag(diagdp);
+					idadm.addDiag(diagdr);
+					
+					
 					//affichage de l'import en en cours
 					System.out.println("Import du patient, nom: "+ idadm.getNom()+ " /  prénom : "+ idadm.getPrenom()+" / ddn : " + idadm.getDdN() + " / sexe : " + idadm.getSexe() );
 					
+					//affichage des diagnostic (parcourt de l'array diag dans l'objet identite administrative
+					System.out.println("Diagnostics : ");
+					for (Diagnostic dia : idadm.getDiag()) {
+						System.out.println(dia.getCodediag());
+					}
+					
 					//Ajout du patient dans l'arraylist
-					gen_IdAdm.add(idadm);
+					gen_idadm.add(idadm);
 					compte += 1;
+					
+					
 				}
 				
 				// fin de l'import
@@ -69,7 +96,7 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 	public ArrayList<IdentiteAdministrative> getIdAdm(){
 		
 		
-		return gen_IdAdm;
+		return gen_idadm;
 	}
 	
 	

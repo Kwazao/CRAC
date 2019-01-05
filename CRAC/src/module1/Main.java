@@ -7,9 +7,28 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		
+		
+		// TEST AVEC IDENTITE ADMINISTRATIVES
+		IdAdmDAO idadmdao = new IdAdmDAO(Connexion.getInstance());
+		
+		System.out.println("Création des identités administratives... ");
+		idadmdao.generateIdAdm();
+		
+		
+		
+		// TEST AVEC DIAGNOSTICS
+		DiagnosticDAO diagdao = new DiagnosticDAO(Connexion.getInstance());
+		
+		System.out.println("Création des diagnostic... ");
+		diagdao.generateDiag();
+		
+		
+		
+		
+		
 		//TODO
 		/*
-		 * Import data -> SQL (R)
+		 * Import data -> SQL (R) : 
 		 * 
 		 * Depuis la base SQL ->instancier objets Ideetite adm
 		 * 

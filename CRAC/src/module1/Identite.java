@@ -7,10 +7,13 @@ public class Identite {
 	private String prenom;
 	private String nom;
 	private String sexe;
-	private Date ddn;
+	private String ddn;
+	
+	//constructeur vide
+	public Identite() {}
 	
 	//constructeur par défaut
-	public Identite(String p, String n, String s, Date d ) {
+	public Identite(String p, String n, String s, String d ) {
 		prenom = p;
 		nom=n;
 		sexe=s;
@@ -30,7 +33,7 @@ public class Identite {
 		return nom;
 	}
 	
-	public Date getDdN() {
+	public String getDdN() {
 		return ddn;
 	}
 	
@@ -49,7 +52,7 @@ public class Identite {
 		this.nom =n;
 	}
 	
-	public void setDdN(Date d) {
+	public void setDdN(String d) {
 		this.ddn =d;
 	}
 

@@ -54,6 +54,8 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 							result.getString("DR")
 							);
 					
+					//rajout DAS
+					
 					//ajout dans l'objet identité administrative crée
 					idadm.addDiag(diagdp);
 					idadm.addDiag(diagdr);
@@ -61,6 +63,7 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 					
 					//affichage de l'import en en cours
 					System.out.println("Import du patient, nom: "+ idadm.getNom()+ " /  prénom : "+ idadm.getPrenom()+" / ddn : " + idadm.getDdN() + " / sexe : " + idadm.getSexe() );
+					
 					
 					//affichage des diagnostic (parcourt de l'array diag dans l'objet identite administrative
 					System.out.println("Diagnostics : ");

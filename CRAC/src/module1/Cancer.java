@@ -16,8 +16,11 @@ public class Cancer {
 	 * fonction : où patient ==== 
 	 * 
 	 * 
+	 * Pour Marine :
+	 * Sortir une arraylist avec Patient + Arraylist<cancer>
+	 * 
 	 */
-	
+		
 	private String cimo_to;
 	private String cimo_mo;
 	private String iacr_to;

@@ -11,11 +11,6 @@ public class Patient extends Identite{
 	//on ajoute les attributs spécifiques au patient = IDAdm (une ou plusieurs) et Cancer (1ou plusieurs)
 	private ArrayList<IdentiteAdministrative> ID_adm_array = new ArrayList<>();
 	private ArrayList<Cancer> Cancer_array = new ArrayList<>();
-
-	//rajouter attributs:
-	/*
-	 * 
-	 */
 	
 	//TODO à redefinir comme sous classe d'identité (sur même modèle qu'identité administrative
 	//constructeur par défaut
@@ -58,6 +53,8 @@ public class Patient extends Identite{
 	public void setCa(ArrayList<Cancer> ca) {
 		this.Cancer_array= ca;
 	}
+	
+	
 	
 	//methode de traitement des cancer
 		public void mod4() {

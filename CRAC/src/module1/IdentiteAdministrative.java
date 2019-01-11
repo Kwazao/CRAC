@@ -3,7 +3,7 @@ package module1;
 
 import java.sql.Date;
 import java.util.ArrayList;
-
+	
 public class IdentiteAdministrative extends Identite {
 	
 	//initialisation des attributs 
@@ -38,7 +38,6 @@ public class IdentiteAdministrative extends Identite {
 	
 	
 	//getters	
-	
 	public Patient getPatient() {
 		return patient;
 	}

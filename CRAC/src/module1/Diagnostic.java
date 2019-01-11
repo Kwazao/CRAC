@@ -7,6 +7,7 @@ public class Diagnostic {
 	private String d_code;
 	private	IdentiteAdministrative id_adm;
 	private Cancer cancer;
+	//rajouter libelle avec requete sur table de corres code et libele
 	
 	public Diagnostic(String t, String c) {
 		this.d_type = t;

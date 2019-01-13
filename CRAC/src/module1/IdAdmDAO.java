@@ -30,9 +30,11 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 			if (result.first()) {
 				result.beforeFirst();
 				
+				//TODO penser à le mode pour Module4
 				int compte = 0;
-				String typecodedp = "DP";
-				String typecodedr = "DR";
+				String typecodedp = "dp";
+				String typecodedr = "dr";
+				String typecodedas = "das";
 				
 				while(result.next()) {
 					
@@ -55,10 +57,15 @@ public class IdAdmDAO extends DAO<IdentiteAdministrative>{
 							);
 					
 					//rajout DAS
+					Diagnostic diagdas = new Diagnostic(
+							typecodedas,
+							result.getString("DAS")
+							);
 					
 					//ajout dans l'objet identité administrative crée
 					idadm.addDiag(diagdp);
 					idadm.addDiag(diagdr);
+					idadm.addDiag(diagdas);
 					
 					
 					//affichage de l'import en en cours

@@ -54,6 +54,10 @@ public class Patient extends Identite{
 		this.Cancer_array= ca;
 	}
 	
+	public void addCa(Cancer ca) {
+		if (!this.getCa().contains(ca))
+		this.getCa().add(ca);
+	}
 	
 	
 	//methode de traitement des cancer
